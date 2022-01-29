@@ -5,12 +5,13 @@ import { db } from "../../firebase";
 const initialState = {
   allGoods: [],
   status: "idle",
+  error: "",
 };
 
 const getGoods = createAsyncThunk("goods/fetchGoods", async () => {
   const ref = collection(db, "goods");
   const snapshot = await getDocs(ref);
-  const data = snapshot.map((doc) => ({
+  const data = snapshot.docs.map((doc) => ({
     id: doc.id,
     data: doc.data(),
   }));
