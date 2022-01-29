@@ -4,7 +4,7 @@ import { db } from "../../../firebase";
 
 const initialState = {
   allGoods: [],
-  status: "",
+  status: "idle",
 };
 
 const getGoods = async () => {
@@ -33,7 +33,7 @@ const goodsSlice = createSlice({
       })
       .addCase(getGoods.fulfilled, (state, action) => {
         state.allGoods = action.payload;
-        state.status = "loaded";
+        state.status = "idle";
       });
   },
 });
