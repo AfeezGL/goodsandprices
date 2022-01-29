@@ -38,4 +38,8 @@ const goodsSlice = createSlice({
   },
 });
 
+export const { addNew } = goodsSlice.actions;
+
 export { getGoods };
+
+export default goodsSlice.reducer;
