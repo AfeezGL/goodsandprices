@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase";
 
@@ -7,7 +7,7 @@ const initialState = {
   status: "idle",
 };
 
-const getGoods = async () => {
+const getGoods = createAsyncThunk("goods/fetchGoods", async () => {
   const ref = collection(db, "goods");
   const snapshot = await getDocs(ref);
   const data = snapshot.map((doc) => ({
@@ -16,7 +16,7 @@ const getGoods = async () => {
   }));
 
   return data;
-};
+});
 
 const goodsSlice = createSlice({
   name: "goods",
@@ -37,3 +37,5 @@ const goodsSlice = createSlice({
       });
   },
 });
+
+export { getGoods };
