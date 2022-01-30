@@ -49,7 +49,7 @@ const EditProduct = () => {
     const docRef = doc(collection(db, "goods"), productId);
 
     await setDoc(docRef, {
-      name,
+      name: name.toLocaleLowerCase(),
       price: Number(price),
     });
 

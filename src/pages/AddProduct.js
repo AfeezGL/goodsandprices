@@ -19,7 +19,7 @@ const AddProduct = () => {
     const collectionRef = collection(db, "goods");
 
     await addDoc(collectionRef, {
-      name,
+      name: name.toLocaleLowerCase(),
       price: Number(price),
     });
 
