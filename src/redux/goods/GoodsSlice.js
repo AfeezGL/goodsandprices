@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const initialState = {
@@ -10,7 +10,8 @@ const initialState = {
 
 const getGoods = createAsyncThunk("goods/fetchGoods", async () => {
   const ref = collection(db, "goods");
-  const snapshot = await getDocs(ref);
+  const queryRef = query(ref, orderBy("name", "asc"));
+  const snapshot = await getDocs(queryRef);
   const data = snapshot.docs.map((doc) => ({
     id: doc.id,
     data: doc.data(),
