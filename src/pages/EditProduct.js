@@ -30,7 +30,7 @@ const EditProduct = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [productId]);
 
   const increment = () => {
     setPrice((prevState) => (prevState += 10));
@@ -50,7 +50,7 @@ const EditProduct = () => {
 
     await setDoc(docRef, {
       name,
-      price,
+      price: Number(price),
     });
 
     dispatch(getGoods());

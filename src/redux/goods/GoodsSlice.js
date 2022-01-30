@@ -22,11 +22,7 @@ const getGoods = createAsyncThunk("goods/fetchGoods", async () => {
 const goodsSlice = createSlice({
   name: "goods",
   initialState,
-  reducers: {
-    addNew: (state, action) => {
-      state.allGoods.push(action.payload);
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getGoods.pending, (state) => {
@@ -38,8 +34,6 @@ const goodsSlice = createSlice({
       });
   },
 });
-
-export const { addNew } = goodsSlice.actions;
 
 export { getGoods };
 
