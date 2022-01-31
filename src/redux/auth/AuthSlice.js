@@ -5,7 +5,7 @@ import { auth } from "../../firebase";
 const initialState = {
   user: null,
   status: "idle",
-  error: "",
+  alert: "",
 };
 
 const login = createAsyncThunk("auth/Login", async ({ email, password }) => {
@@ -15,8 +15,6 @@ const login = createAsyncThunk("auth/Login", async ({ email, password }) => {
     password
   );
   const user = userCredential.user.uid;
-
-  console.log(user);
 
   return user;
 });
@@ -28,6 +26,9 @@ const authSlice = createSlice({
     setAuth: (state, action) => {
       state.user = action.payload;
     },
+    clearAlert: (state) => {
+      state.alert = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -37,15 +38,16 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload;
         state.status = "idle";
+        state.alert = { type: "success", message: "Logged in successfully" };
       })
       .addCase(login.rejected, (state, action) => {
-        state.error = action.error.message;
+        state.alert = { type: "danger", message: action.error.message };
         state.status = "idle";
       });
   },
 });
 
-export const { setAuth } = authSlice.actions;
+export const { setAuth, clearAlert } = authSlice.actions;
 export { login };
 
 export default authSlice.reducer;
