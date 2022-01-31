@@ -14,7 +14,7 @@ const login = createAsyncThunk("auth/Login", async ({ email, password }) => {
     email,
     password
   );
-  const user = userCredential.user.uid;
+  const user = userCredential.user.uid || null;
 
   return user;
 });

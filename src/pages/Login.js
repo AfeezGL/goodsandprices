@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { clearAlert, login } from "../redux/auth/AuthSlice";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
 
 const Login = () => {
   const dispatch = useDispatch();
