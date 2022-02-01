@@ -1,9 +1,9 @@
-import { Alert } from "bootstrap";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { clearAlert, login } from "../redux/auth/AuthSlice";
 import Spinner from "../components/Spinner";
+import Alert from "../components/Alert";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -21,21 +21,7 @@ const Login = () => {
     <div className="container">
       <h1>Login</h1>
       {alert && (
-        <div
-          className={`alert alert-${alert.type} alert-dismissible fade show`}
-          role="alert"
-        >
-          {alert.message}
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-            onClick={() => {
-              dispatch(clearAlert);
-            }}
-          ></button>
-        </div>
+        <Alert alert={alert} clearAlert={() => dispatch(clearAlert())} />
       )}
       <form onSubmit={submit}>
         <div className="mb-3">

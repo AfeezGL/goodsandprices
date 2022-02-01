@@ -7,7 +7,7 @@ const Home = () => {
   const goods = useSelector((state) => state.goods.allGoods);
   const status = useSelector((state) => state.goods.status);
 
-  if (status === "loading") return <PageSpinner />;
+  if (status === "busy") return <PageSpinner />;
 
   return (
     <div className="container">

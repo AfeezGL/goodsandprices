@@ -1,20 +1,22 @@
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import Alert from "../components/Alert";
 import PageSpinner from "../components/PageSpinner";
 import Spinner from "../components/Spinner";
 import { db } from "../firebase";
-import { getGoods } from "../redux/goods/GoodsSlice";
+import { clearAlert, editProduct, getGoods } from "../redux/goods/GoodsSlice";
 
 const EditProduct = () => {
   const dispatch = useDispatch();
   const { productId } = useParams();
   const [name, setName] = useState(null);
   const [price, setPrice] = useState("");
-  const [busy, setBusy] = useState(false);
   const user = useSelector((state) => state.auth.user);
+  const alert = useSelector((state) => state.goods.alert);
+  const status = useSelector((state) => state.goods.status);
 
   useEffect(() => {
     let mounted = true;
@@ -43,21 +45,12 @@ const EditProduct = () => {
     setPrice((prevState) => (prevState -= 10));
   };
 
-  const submitForm = async (e) => {
+  const submitForm = (e) => {
     e.preventDefault();
 
-    setBusy(true);
-
-    const docRef = doc(collection(db, "goods"), productId);
-
-    await setDoc(docRef, {
-      name: name.toLocaleLowerCase(),
-      price: Number(price),
-    });
+    dispatch(editProduct({ name, price, productId }));
 
     dispatch(getGoods());
-
-    setBusy(false);
   };
 
   if (name === null) return <PageSpinner />;
@@ -74,6 +67,9 @@ const EditProduct = () => {
       ) : (
         <div className="container">
           <h1>Edit Product</h1>
+          {alert && (
+            <Alert alert={alert} clearAlert={() => dispatch(clearAlert())} />
+          )}
           <form onSubmit={submitForm}>
             <div className="mb-3">
               <label htmlFor="productName" className="form-label">
@@ -119,7 +115,7 @@ const EditProduct = () => {
               </button>
             </div>
             <button type="submit" className="btn btn-primary">
-              {busy ? <Spinner /> : "Submit"}
+              {status === "busy" ? <Spinner /> : "Submit"}
             </button>
           </form>
         </div>
