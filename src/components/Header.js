@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const user = useSelector((state) => state.auth.user);
+
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3">
@@ -31,6 +34,15 @@ const Header = () => {
                 <Link className="nav-link" to={"/addproduct"}>
                   Add Product
                 </Link>
+              </li>
+              <li className="nav-item">
+                {!user ? (
+                  <Link className="nav-link" to={"/login"}>
+                    Login
+                  </Link>
+                ) : (
+                  <a className="nav-link">Logout</a>
+                )}
               </li>
             </ul>
           </div>
