@@ -1,9 +1,15 @@
+import { signOut } from "firebase/auth";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { auth } from "../firebase";
 
 const Header = () => {
   const user = useSelector((state) => state.auth.user);
+
+  const logout = async () => {
+    await signOut(auth);
+  };
 
   return (
     <header>
@@ -41,7 +47,9 @@ const Header = () => {
                     Login
                   </Link>
                 ) : (
-                  <a className="nav-link">Logout</a>
+                  <a className="nav-link" onClick={logout}>
+                    Logout
+                  </a>
                 )}
               </li>
             </ul>
